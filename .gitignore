@@ -42,4 +42,8 @@ ENV/
 .terraform/
 *.tfstate
 *.tfstate.*
-.terraform.lock.hcl 
+.terraform.lock.hcl
+
+# Application-specific files
+app.py
+app.py.bak 
