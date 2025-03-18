@@ -1,120 +1,87 @@
 # Financial Performance Reporting Agent - Quick Start Guide
 
-This guide will help you set up and run the Financial Performance Reporting Agent, an AI-powered tool that analyzes financial data, researches competitors, and generates comprehensive reports.
+This guide helps you set up and run the Financial Performance Reporting Agent on your system.
 
 ## Prerequisites
 
 - Google Cloud Platform account with billing enabled
 - Tavily API key (for web search capabilities)
-- Anaconda/Miniconda installed on your system
-- Basic familiarity with command line
+- Anaconda/Miniconda
+- Git
 
-## 1. Environment Setup
+## Setup
 
-### Create a Python Environment
+### 1. Clone & Configure Environment
 
 ```bash
-# Create a new conda environment with Python 3.11
+# Clone repository
+git clone [repository-url]
+cd financial-analysis-langgraph
+
+# Create and activate conda environment
 conda create -n langgraph python=3.11
 conda activate langgraph
 
-# Install all required dependencies
-pip install -r LangGraph_311_requirements.txt
+# Install dependencies
+pip install -r requirements.txt
+
+# Configure environment variables
+cp .env.example .env
+# Edit .env with your credentials
 ```
 
-### Set Up Google Cloud Infrastructure
+Required variables in `.env`:
+- `GOOGLE_CLOUD_PROJECT_ID`: Your GCP project ID
+- `GOOGLE_CLOUD_REGION`: Preferred region (e.g., us-east5)
+- `GOOGLE_APPLICATION_CREDENTIALS`: Path to service account key
+- `TAVILY_API_KEY`: Your Tavily API key
+
+### 2. Set Up GCP Resources
 
 ```bash
-# Navigate to the terraform directory
-cd terraform
-
 # Initialize Terraform
+cd terraform
 terraform init
 
-# Deploy the infrastructure (you'll be prompted to confirm)
+# Deploy infrastructure
 terraform apply
 
-# Verify that the service account key was created
-ls service-account-key.json
+# Return to project root
+cd ..
 ```
 
-### Configure Environment Variables
+## Running the Application
 
 ```bash
-# Copy the example .env file
-cp .env.example .env
-
-# Edit the .env file with your credentials
-# Required variables:
-# - GOOGLE_CLOUD_PROJECT_ID=your-gcp-project-id
-# - GOOGLE_CLOUD_REGION=your-preferred-region (e.g., us-east5)
-# - GOOGLE_APPLICATION_CREDENTIALS=./terraform/service-account-key.json
-# - TAVILY_API_KEY=your-tavily-api-key
-```
-
-## 2. Running the Application
-
-```bash
-# Make sure you're in the project root directory
-# Activate your environment if not already active
+# Ensure you're in the project root with environment activated
 conda activate langgraph
 
-# Start the Streamlit application
+# Launch application
 streamlit run app.py
 ```
 
-The application will open in your default web browser at http://localhost:8501.
+The application opens in your browser at http://localhost:8501
 
-## 3. Using the Application
+## Using the Application
 
-1. **Input Information**
-   - Enter your task description (e.g., analyze company financials)
-   - Add competitor names (one per line)
-   - Set the maximum number of revision cycles
-   - Upload your financial data CSV file (use the provided sample as a template)
+1. **Enter Analysis Parameters**:
+   - Task description (already populated with default)
+   - Competitor names (defaults provided)
+   - Maximum revision cycles
+   - Upload financial data in CSV format (a sample financials.csv file is provided in the repository)
+
+2. **Start Analysis**:
    - Click "Start Analysis"
+   - Watch progress across multiple processing stages
 
-2. **View Results**
-   - Navigate through the tabs to see different aspects of the analysis
-   - The application works through several steps automatically:
-     - Analyzing financial data
-     - Researching competitors
-     - Comparing performance
-     - Generating a final report
+3. **Review Results**:
+   - Navigate the tabs to view different stages of analysis
+   - Download the final report when complete
 
-3. **Download Report**
-   - Once analysis is complete, use the "Download Report" button to save your report
+## Troubleshooting
 
-## 4. Troubleshooting
+- **Authentication Error**: Verify your GCP credentials and `GOOGLE_APPLICATION_CREDENTIALS` path
+- **Missing Dependencies**: Run `pip install -r requirements.txt`
+- **Model Unavailable**: Ensure the model is available in your GCP region
 
-### Common Issues
-
-1. **Authentication Problems**
-   ```bash
-   # Verify your GCP authentication
-   gcloud auth application-default login
-   
-   # Check your service account key path in .env file
-   # Should be: GOOGLE_APPLICATION_CREDENTIALS=./terraform/service-account-key.json
-   ```
-
-2. **Missing Dependencies**
-   ```bash
-   # Reinstall all dependencies
-   pip install -r LangGraph_311_requirements.txt
-   
-   # Install specific missing packages if needed
-   pip install langchain-community langchain-google-vertexai langgraph streamlit
-   ```
-
-3. **Model Availability**
-   - If you encounter model errors, check if the model is available in your GCP region
-   - You might need to update the MODEL_NAME variable to use a model available in your project
-
-## Sample Data
-
-The application includes a sample `financials.csv` file you can use for testing.
-
-## Need Help?
-
-If you encounter issues not covered here, please refer to the documentation or create an issue with specific error details. 
+For detailed technical information, see [TECHNICAL_DETAILS.md](./TECHNICAL_DETAILS.md). 

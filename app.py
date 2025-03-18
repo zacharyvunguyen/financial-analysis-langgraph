@@ -701,6 +701,9 @@ def input_form():
             
             max_revisions = st.number_input("Maximum Revision Cycles", min_value=1, value=2)
             
+            st.write("Upload financial data (CSV)")
+            st.info("You can use the sample financials.csv file included in the repository")
+            
             uploaded_file = st.file_uploader(
                 "Upload company financial data (CSV)", 
                 type=["csv"]
@@ -714,7 +717,13 @@ def handle_analysis(task, competitors, max_revisions, uploaded_file, tabs):
     """Process the financial analysis workflow."""
     with st.spinner("Processing..."):
         # Read the uploaded CSV file
-        csv_data = uploaded_file.getvalue().decode("utf-8")
+        if hasattr(uploaded_file, 'getvalue'):
+            csv_data = uploaded_file.getvalue().decode("utf-8")
+        else:
+            # For StringIO objects (sample data)
+            csv_data = uploaded_file.read()
+            if hasattr(uploaded_file, 'seek'):
+                uploaded_file.seek(0)  # Reset position for potential future reads
         
         # Initialize the graph
         print("Initializing graph...")
@@ -991,10 +1000,10 @@ def main():
         submit_button, task, competitors, max_revisions, uploaded_file = input_form()
         
         if submit_button:
-            if uploaded_file is None:
-                st.error("Please upload a CSV file with financial data.")
-            elif not competitors:
+            if not competitors:
                 st.error("Please enter at least one competitor.")
+            elif uploaded_file is None:
+                st.error("Please upload your own CSV file.")
             else:
                 try:
                     # Test Tavily API before starting the analysis
