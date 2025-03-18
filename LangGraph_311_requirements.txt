@@ -1,0 +1,52 @@
+# Core LangGraph and LangChain packages
+langchain==0.3.20
+langchain-core==0.3.41
+langchain-text-splitters==0.3.6
+langgraph==0.3.5
+langgraph-checkpoint==2.0.16
+langgraph-prebuilt==0.1.2
+langgraph-sdk==0.1.53
+langsmith==0.3.11
+
+# Google Vertex AI integration
+google-auth==2.38.0
+google-api-core==2.24.1
+google-cloud-aiplatform==1.83.0
+google-cloud-storage==2.19.0
+google-cloud-core==2.4.2
+google-cloud-resource-manager==1.14.1
+google-cloud-bigquery==3.30.0
+langchain-google-vertexai==0.1.4  # Added for Vertex AI integration
+
+# Community integrations
+langchain-community==0.3.19  # Added for community tools
+anthropic==0.49.0  # Added for API support
+tavily-python==0.5.1
+
+# Web application
+streamlit==1.43.0
+pandas==2.2.3
+numpy==2.2.3
+python-dotenv==1.0.1
+
+# Structured data and serialization
+pydantic==2.10.6
+pydantic-core==2.27.2
+annotated-types==0.7.0
+msgpack==1.1.0
+orjson==3.10.15
+
+# HTTP and networking
+httpx==0.28.1
+requests==2.32.3
+anyio==4.8.0
+aiohttp==3.11.14  # Added for async HTTP requests
+
+# Utilities
+PyYAML==6.0.2
+typing_extensions==4.12.2
+tenacity==9.0.0
+tiktoken==0.9.0
+regex==2024.11.6
+jsonpatch==1.33
+SQLAlchemy==2.0.38
